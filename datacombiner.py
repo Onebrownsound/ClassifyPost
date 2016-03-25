@@ -23,3 +23,7 @@ class DataCombiner():
                 self.classification_names[index] = filename
         except Exception as e:
             print('Error parsing files')
+
+
+class Object(object):
+    pass
