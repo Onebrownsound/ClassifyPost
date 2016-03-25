@@ -6,6 +6,7 @@ from sklearn.externals import joblib
 from sklearn.grid_search import GridSearchCV
 from datacombiner import DataCombiner, Object
 import random
+import numpy as np
 
 
 def save_classifier(classifier):
@@ -32,6 +33,10 @@ def test_classifier(classifier, test_documents, data_target_names):
 
     for doc, j in zip(test_documents, predicted):
         print('%r => %s' % (doc, data_target_names[j]))
+
+def evaluate_classifier(classifier, _data):
+    predictions = classifier.predict(_data.data)
+    print (np.mean(predictions == _data.target))
 
 
 def sample_data(population_data, number_samples):
@@ -75,11 +80,12 @@ def grid_search(sample, classifier):
 
 
 if __name__== '__main__':
-    # sample_tweets = sample_data(tweets, 40000)
-    # text_clf = load_classifier('classifier')
-    # grid_search(sample_tweets,text_clf)
-    text_clf = create_classifier(tweets.data, tweets.target)
+    #text_clf = create_classifier(tweets.data, tweets.target)
+    text_clf = load_classifier('classifier')
+    sample_tweets = sample_data(tweets, 400000)
+    #grid_search(sample_tweets,text_clf)
     test_classifier(text_clf, docs_new, tweets.classification_names)
+    #evaluate_classifier(text_clf,sample_tweets)
     save_classifier(text_clf)
 
 
