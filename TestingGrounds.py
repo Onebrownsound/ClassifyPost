@@ -19,7 +19,7 @@ def load_classifier(name):
 
 def create_classifier(feature_vector, target_vector):
     text_clf = Pipeline([('vect', CountVectorizer(ngram_range=(1,1))),
-                         ('tfidf', TfidfTransformer(use_idf=False)),
+                         ('tfidf', TfidfTransformer(use_idf=True)),
                          ('clf', SGDClassifier(loss='hinge', penalty='l2',
                                                alpha=1e-3, n_iter=5, random_state=42,))
                          ])
@@ -64,7 +64,7 @@ docs_new = ['i will miss you bob RIP ', 'congrats on your marriage becky',
             'im going to miss that dude he was my best friend',
             'grats to eileen and mark i hope they cherish each other on their special day',
             'good luck', '#rip love you so much', '#congratulations on baby its a boy!',
-            '#theysaidido i do todays the big day #ido', 'marriage sucks ill never do it again to hell with bobby']
+            '#theysaidido i do todays the big day #ido', 'marriage sucks ill never do it again to hell with bobby','#rip miss you kev']
 parameters = {'vect__ngram_range': [(1, 1), (1, 2)],
               'tfidf__use_idf': (True, False),
               'clf__alpha': (1e-2, 1e-3),
@@ -85,7 +85,7 @@ if __name__== '__main__':
     sample_tweets = sample_data(tweets, 400000)
     #grid_search(sample_tweets,text_clf)
     test_classifier(text_clf, docs_new, tweets.classification_names)
-    #evaluate_classifier(text_clf,sample_tweets)
+    evaluate_classifier(text_clf,sample_tweets)
     save_classifier(text_clf)
 
 
